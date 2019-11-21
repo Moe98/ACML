@@ -33,11 +33,6 @@ const UserSchema = new Schema({
           type: String,
           required: true
         }
-<<<<<<< Updated upstream
-      ],
-      default: [],
-      required: false
-=======
       }
     ],
     default: [],
@@ -52,7 +47,6 @@ const UserSchema = new Schema({
     ],
     default: [],
     required: false
->>>>>>> Stashed changes
   }
 });
 module.exports = User = mongoose.model("User", UserSchema);
