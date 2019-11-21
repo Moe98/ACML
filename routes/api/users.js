@@ -7,6 +7,8 @@ const userController = require("../../controllers/userController");
 
 
 //Read
+router.get("/",userController.getAllUsers);
+
 router.get("/:id",userController.getUser);
 
 //Create
