@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const flash = require("connect-flash");
 const session = require("express-session");
 const cors = require("cors");
@@ -8,6 +9,21 @@ const path = require("path");
 const app = express();
 
 app.use(cors());
+
+//Getting Mongo's connection URI
+const db = require("./config/keys").mongoURI;
+
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+
+//Connecting to MongoDB
+mongoose
+  .connect(db)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.log(err));
+
+
 
 //Middleware
 app.use(express.json());
