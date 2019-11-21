@@ -1,9 +1,6 @@
 const validator = require("../validations/userValidations");
-const mongoValidator = require("validator");
 const bcrypt = require("../routes/api/utils/encryption.js");
-const passport = require("passport");
-const jwt = require("jsonwebtoken");
-const tokenKey = require("../config/keys_dev").secretOrKey;
+
 
 const User = require("../models/User");
 
