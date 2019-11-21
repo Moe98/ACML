@@ -16,28 +16,43 @@ const UserSchema = new Schema({
   },
   favoriteArticles: {
     type: [
-        {
-          link: {
-            type: String,
-            required: true
-          }
+      {
+        link: {
+          type: String,
+          required: true
         }
-      ],
-      default: [],
-      required: false
+      }
+    ],
+    default: [],
+    required: false
   },
   favoriteAuthors: {
     type: [
-        {
-          author: {
-            type: String,
-            required: true
-          }
+      {
+        author: {
+          type: String,
+          required: true
         }
+<<<<<<< Updated upstream
       ],
       default: [],
       required: false
+=======
+      }
+    ],
+    default: [],
+    required: false
+  },
+  topicsHistory: {
+    type: [
+      {
+        type: String,
+        required: true
+      }
+    ],
+    default: [],
+    required: false
+>>>>>>> Stashed changes
   }
- 
 });
 module.exports = User = mongoose.model("User", UserSchema);
