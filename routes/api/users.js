@@ -21,6 +21,6 @@ router.put("/:id", userController.updateUser);
 router.delete("/:id",  userController.deleteUser);
 
 //Search
-router.post('/search/:userID/:searchQuery', userController.search);
+router.post('/search/:id/:searchQuery', userController.search);
 
 module.exports = router;
