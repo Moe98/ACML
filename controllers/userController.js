@@ -47,7 +47,7 @@ exports.createUser = async function(req, res) {
   }
 };
 
-// update password
+// update user  password only
 exports.updateUser = async function(req, res) {
   try {
     const id = req.params.id;
@@ -79,6 +79,21 @@ exports.updateUser = async function(req, res) {
       favoriteAuthors
     });
     res.send({ msg: "user updated successfully" });
+  } catch (error) {
+    res.status(404).send({ error: "user does not exist" });
+  }
+};
+// delete User
+exports.deleteUser = async function(req, res) {
+  try {
+    const id = req.params.id;
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      res.status(404).send({ error: "user does not exist" });
+      return;
+    }
+    const deletedUser = await User.findByIdAndRemove(id);
+    res.send({ msg: "user was deleted successfully", data: deletedUser });
   } catch (error) {
     res.status(404).send({ error: "user does not exist" });
   }
