@@ -1,9 +1,13 @@
 const validator = require("../validations/userValidations");
 const bcrypt = require("../routes/api/utils/encryption.js");
 
-
 const User = require("../models/User");
 
+// get All Users
+exports.getAllUsers = async function(req, res) {
+  const users = await User.find();
+  res.send({ data: users });
+};
 // get user
 exports.getUser = async function(req, res) {
   try {
