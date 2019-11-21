@@ -115,7 +115,7 @@ exports.search = async function(req, res) {
       res.status(404).send({ error: "user does not exist" });
       return;
     }
-    const topicsHistory = user.topicsHistory;
+    let topicsHistory = user.topicsHistory;
     let flag = true;
     for (let i = 0; i < topicsHistory.length; i++)
       if (topicsHistory[i] === req.params.searchQuery) flag = false;
