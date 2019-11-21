@@ -19,6 +19,7 @@ router.put("/:id", userController.updateUser);
 router.delete("/:id", userController.deleteUser);
 
 //Search
+
 router.post("/search/:id/:searchQuery", userController.search);
 
 // get Favourite Articles
@@ -32,5 +33,7 @@ router.get("/favouriteAuthors/:id", userController.getFavoriteAuthors);
 
 // update FavouriteAuthors
 router.put("/favouriteAuthors/:id", userController.updateFavouriteAuthors);
+
+
 
 module.exports = router;

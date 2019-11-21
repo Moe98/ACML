@@ -108,34 +108,60 @@ exports.deleteUser = async function(req, res) {
 
 // Search
 exports.search = async function(req, res) {
-  let date = new Date();
-  let from =
-    date.getFullYear() + "-" + date.getMonth() + "-" + date.getUTCDate(); // handle this more precisely
-  let to =
-    date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getUTCDate();
   try {
-    newsapi.v2
-      .everything({
-        q: req.params.searchQuery,
-        sources: "",
-        domains: "",
-        from: from,
-        to: to,
-        language: "en",
-        sortBy: "relevancy",
-        page: 2
-      })
-      .then(response => {
-        res.json({ data: response });
-        //console.log(response);
-        /*
+    const id = req.params.id;
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      res.status(404).send({ error: "user does not exist" });
+      return;
+    }
+    let topicsHistory = user.topicsHistory;
+    let flag = true;
+    for (let i = 0; i < topicsHistory.length; i++)
+      if (topicsHistory[i] === req.params.searchQuery) flag = false;
+    if (flag) {
+      topicsHistory.push(req.params.searchQuery);
+      await User.findByIdAndUpdate(id, {
+        topicsHistory
+      });
+    }
+    let date = new Date();
+    let from =
+      date.getFullYear() + "-" + date.getMonth() + "-" + date.getUTCDate(); // handle this more precisely
+    let to =
+      date.getFullYear() +
+      "-" +
+      (date.getMonth() + 1) +
+      "-" +
+      date.getUTCDate();
+    try {
+      newsapi.v2
+        .everything({
+          q: req.params.searchQuery,
+          sources: "",
+          domains: "",
+          from: from,
+          to: to,
+          language: "en",
+          sortBy: "relevancy",
+          page: 2
+        })
+        .then(response => {
+          res.json({ data: response });
+          //console.log(response);
+          /*
             {
               status: "ok",
               articles: [...]
             }
           */
-      });
-  } catch (error) {}
+        });
+    } catch (error) {
+      res.status(404).send({ error: "failed to search" });
+    }
+  } catch (error) {
+    res.status(404).send({ error: "user does not exist" });
+  }
 };
 
 // get Favourite Articles

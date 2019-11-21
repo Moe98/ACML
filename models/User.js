@@ -17,8 +17,10 @@ const UserSchema = new Schema({
   favoriteArticles: {
     type: [
       {
+
         type: String,
         required: true
+
       }
     ],
     default: [],
@@ -27,8 +29,10 @@ const UserSchema = new Schema({
   favoriteAuthors: {
     type: [
       {
+
         type: String,
         required: true
+
       }
     ],
     default: [],
@@ -37,10 +41,8 @@ const UserSchema = new Schema({
   topicsHistory: {
     type: [
       {
-        topic: {
-          type: String,
-          required: true
-        }
+        type: String,
+        required: true
       }
     ],
     default: [],
