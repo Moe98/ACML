@@ -4,6 +4,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const cors = require("cors");
 const path = require("path");
+const users = require("./routes/api/users");
 //Require Route Handlers
 
 const app = express();
@@ -50,6 +51,7 @@ app.use((req, res, next) => {
 });
 
 //Use Route Handlers
+app.use("/api/users", users);
 
 //production mode
 if (process.env.NODE_ENV === "production") {
