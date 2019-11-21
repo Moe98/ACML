@@ -118,7 +118,7 @@ exports.search = async function(req, res) {
     const topicsHistory = user.topicsHistory;
     let flag = true;
     for (let i = 0; i < topicsHistory.length; i++)
-      if (topicsHistory[i] == req.params.searchQuery) flag = false;
+      if (topicsHistory[i] === req.params.searchQuery) flag = false;
     if (flag) {
       topicsHistory.push(req.params.searchQuery);
       await User.findByIdAndUpdate(id, {
