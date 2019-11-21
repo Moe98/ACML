@@ -1,9 +1,8 @@
 const validator = require("../validations/userValidations");
 const bcrypt = require("../routes/api/utils/encryption.js");
 const newsURI = require("../config/keys_dev").newsURI;
-const NewsAPI = require('newsapi');
+const NewsAPI = require("newsapi");
 const newsapi = new NewsAPI(newsURI);
-
 
 const User = require("../models/User");
 
@@ -106,29 +105,33 @@ exports.deleteUser = async function(req, res) {
 };
 
 // Search
-exports.search = async function(req, res){
-  try{
-      newsapi.v2.everything({
-          q: req.params.searchQuery,
-          sources: '',
-          domains: '',
-          from: '2019-11-07',
-          to: '2019-12-12',
-          language: 'en',
-          sortBy: 'relevancy',
-          page: 2
-        }).then(response => {
-          res.json({ data: response });
-          //console.log(response);
-          /*
+exports.search = async function(req, res) {
+  let date = new Date();
+  let from =
+    date.getFullYear() + "-" + date.getMonth() + "-" + date.getUTCDate(); // handle this more precisely
+  let to =
+    date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getUTCDate();
+  try {
+    newsapi.v2
+      .everything({
+        q: req.params.searchQuery,
+        sources: "",
+        domains: "",
+        from: from,
+        to: to,
+        language: "en",
+        sortBy: "relevancy",
+        page: 2
+      })
+      .then(response => {
+        res.json({ data: response });
+        //console.log(response);
+        /*
             {
               status: "ok",
               articles: [...]
             }
           */
-        });
-  }
-  catch(error){
-
-  }
-}
+      });
+  } catch (error) {}
+};
