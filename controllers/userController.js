@@ -245,3 +245,67 @@ exports.updateFavouriteAuthors = async function(req, res) {
     res.status(404).send({ error: " does exist" });
   }
 };
+
+// recommend
+exports.recommend = async function(req, res) {
+  try {
+    const id = req.params.id;
+    const user = await User.findOne({ _id: id });
+    const topicsHistory = user.topicsHistory;  
+
+    console.log("user");
+    
+    var recommededArticles = await searchForRecommendations(topicsHistory);
+    res.send(recommededArticles);
+    
+  } catch (error) {
+    res.status(404).send({ error: " errorr" });
+  }
+};
+
+
+ // Search
+   searchForRecommendations = async function(topicsHistory) {
+   try {
+    var recommededArticles ={ msg: "byyyyy" };
+    var temp =  topicsHistory.map(obj=>{
+        let date = new Date();
+        let from =
+          date.getFullYear() + "-" + date.getMonth() + "-" + date.getUTCDate(); // handle this more precisely
+        let to =
+          date.getFullYear() +
+          "-" +
+          (date.getMonth() + 1) +
+          "-" +
+          date.getUTCDate();
+        try {
+           newsapi.v2
+            .everything({
+              q: obj,
+              sources: "",
+              domains: "",
+              from: from,
+              to: to,
+              language: "en",
+              sortBy: "relevancy",
+              page: 2
+            })
+            .then(response => {
+              console.log(response);
+              recommededArticles.push(response);
+              /*
+                {
+                  status: "ok",
+                  articles: [...]
+                }
+              */
+            });
+        } catch (error) {
+          res.status(404).send({ error: "failed to search" });
+        }
+      });
+      return recommededArticles;
+  } catch (error) {
+    res.status(404).send({ error: "user does not exist" });
+  }
+};

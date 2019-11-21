@@ -34,6 +34,7 @@ router.get("/favouriteAuthors/:id", userController.getFavoriteAuthors);
 // update FavouriteAuthors
 router.put("/favouriteAuthors/:id", userController.updateFavouriteAuthors);
 
-
+// recommend Articles
+router.get("/recommend/:id", userController.recommend);
 
 module.exports = router;
