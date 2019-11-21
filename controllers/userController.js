@@ -1,9 +1,8 @@
 const validator = require("../validations/userValidations");
-const mongoValidator = require("validator");
 const bcrypt = require("../routes/api/utils/encryption.js");
-const passport = require("passport");
-const jwt = require("jsonwebtoken");
-const tokenKey = require("../config/keys_dev").secretOrKey;
+const newsURI = require("../config/keys_dev").newsURI;
+const NewsAPI = require('newsapi');
+const newsapi = new NewsAPI(newsURI);
 
 const User = require("../models/User");
 
@@ -83,3 +82,30 @@ exports.updateUser = async function(req, res) {
     res.status(404).send({ error: "user does not exist" });
   }
 };
+
+exports.search = async function(req, res){
+  try{
+      newsapi.v2.everything({
+          q: req.params.searchQuery,
+          sources: '',
+          domains: '',
+          from: '2019-11-07',
+          to: '2019-12-12',
+          language: 'en',
+          sortBy: 'relevancy',
+          page: 2
+        }).then(response => {
+          res.json({ data: response });
+          //console.log(response);
+          /*
+            {
+              status: "ok",
+              articles: [...]
+            }
+          */
+        });
+  }
+  catch(error){
+
+  }
+}
