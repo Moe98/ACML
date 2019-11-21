@@ -71,6 +71,7 @@ exports.updateUser = async function(req, res) {
     const password = req.body.password;
     const favoriteArticles = user.favoriteArticles;
     const favoriteAuthors = user.favoriteAuthors;
+    const topicsHistory = user.topicsHistory;
     const isValidated = validator.updateValidation(req.body);
     if (isValidated.error) {
       res.status(400).send({ error: isValidated.error.details[0].message });
@@ -81,7 +82,8 @@ exports.updateUser = async function(req, res) {
       password,
       username,
       favoriteArticles,
-      favoriteAuthors
+      favoriteAuthors,
+      topicsHistory
     });
     res.send({ msg: "user updated successfully" });
   } catch (error) {
