@@ -7,8 +7,7 @@ module.exports = {
         .min(1)
         .max(500)
         .required(),
-      email: Joi.string().required(),
-      username: Joi.string()
+      email: Joi.string()
         .email()
         .required(),
       password: Joi.string()

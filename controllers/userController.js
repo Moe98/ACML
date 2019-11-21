@@ -4,8 +4,14 @@ const newsURI = require("../config/keys_dev").newsURI;
 const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI(newsURI);
 
+
 const User = require("../models/User");
 
+// get All Users
+exports.getAllUsers = async function(req, res) {
+  const users = await User.find();
+  res.send({ data: users });
+};
 // get user
 exports.getUser = async function(req, res) {
   try {
@@ -46,7 +52,7 @@ exports.createUser = async function(req, res) {
   }
 };
 
-// update password
+// update user  password only
 exports.updateUser = async function(req, res) {
   try {
     const id = req.params.id;
@@ -83,6 +89,23 @@ exports.updateUser = async function(req, res) {
   }
 };
 
+// delete User
+exports.deleteUser = async function(req, res) {
+  try {
+    const id = req.params.id;
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      res.status(404).send({ error: "user does not exist" });
+      return;
+    }
+    const deletedUser = await User.findByIdAndRemove(id);
+    res.send({ msg: "user was deleted successfully", data: deletedUser });
+  } catch (error) {
+    res.status(404).send({ error: "user does not exist" });
+  }
+};
+
+// Search
 exports.search = async function(req, res){
   try{
       newsapi.v2.everything({
