@@ -17,10 +17,10 @@ const UserSchema = new Schema({
   favoriteArticles: {
     type: [
       {
-        link: {
-          type: String,
-          required: true
-        }
+
+        type: String,
+        required: true
+
       }
     ],
     default: [],
@@ -29,10 +29,10 @@ const UserSchema = new Schema({
   favoriteAuthors: {
     type: [
       {
-        author: {
-          type: String,
-          required: true
-        }
+
+        type: String,
+        required: true
+
       }
     ],
     default: [],

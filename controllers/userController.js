@@ -163,3 +163,85 @@ exports.search = async function(req, res) {
     res.status(404).send({ error: "user does not exist" });
   }
 };
+
+// get Favourite Articles
+exports.getFavoriteArticles = async function(req, res) {
+  try {
+    const id = req.params.id;
+    const user = await User.findOne({ _id: id });
+    if (!user) return res.status(404).send({ error: "user does not exist" });
+    res.send({ data: user.favoriteArticles });
+  } catch (error) {
+    res.status(404).send({ error: "user does not exist" });
+  }
+};
+
+// get favourite Authors
+exports.getFavoriteAuthors = async function(req, res) {
+  try {
+    const id = req.params.id;
+    const user = await User.findOne({ _id: id });
+    if (!user) return res.status(404).send({ error: "user does not exist" });
+    res.send({ data: user.favoriteAuthors });
+  } catch (error) {
+    res.status(404).send({ error: "user does not exist" });
+  }
+};
+
+// update Favourite Articles
+exports.updateFavouriteArticles = async function(req, res) {
+  try {
+    const id = req.params.id;
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      res.status(404).send({ error: "user does not exist" });
+      return;
+    }
+    const newFavourite = req.body.link;
+
+    var favoriteArticles = user.favoriteArticles;
+    var flag = true;
+    for (var i = 0; i < favoriteArticles.length; i++)
+      if (favoriteArticles[i] === newFavourite) flag = false;
+
+    if (flag) {
+      favoriteArticles.push(newFavourite);
+
+      await User.findByIdAndUpdate(id, {
+        favoriteArticles
+      });
+    }
+    res.send({ msg: "favourite article  updated successfully" });
+  } catch (error) {
+    res.status(404).send({ error: " does exist" });
+  }
+};
+
+// update Favourite Authors
+exports.updateFavouriteAuthors = async function(req, res) {
+  try {
+    const id = req.params.id;
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      res.status(404).send({ error: "user does not exist" });
+      return;
+    }
+    const newFavourite = req.body.author;
+
+    var favoriteAuthors = user.favoriteAuthors;
+    var flag = true;
+    for (var i = 0; i < favoriteAuthors.length; i++)
+      if (favoriteAuthors[i] === newFavourite) flag = false;
+
+    if (flag) {
+      favoriteAuthors.push(newFavourite);
+
+      await User.findByIdAndUpdate(id, {
+        favoriteAuthors
+      });
+    }
+    res.send({ msg: "favourite authors  updated successfully" });
+  } catch (error) {
+    res.status(404).send({ error: " does exist" });
+  }
+};
