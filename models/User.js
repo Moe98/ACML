@@ -37,6 +37,18 @@ const UserSchema = new Schema({
       ],
       default: [],
       required: false
+  },
+   topicsHistory: {
+    type: [
+        {
+          topic: {
+            type: String,
+            required: true
+          }
+        }
+      ],
+      default: [],
+      required: false
   }
  
 });
