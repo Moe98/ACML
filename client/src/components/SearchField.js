@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
-
+import Articles from "./Articles";
 const styles = {
   container: {
     display: "flex",
@@ -15,42 +15,75 @@ const styles = {
 };
 
 class SearchField extends Component {
-  state = {
-    searchText: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchText: [],
+      done: false,
+      remove: false
+    };
+  }
+  componentDidMount() {
+    this.setState({ searchText: [] });
+    this.setState({ done: false });
+    this.setState({ remove: false });
+  }
 
-  handleTextChange = eventTarget => {
-    this.setState({ searchText: eventTarget.value });
+  keyPressed = event => {
+    console.log([event.target.value]);
+    if (event.key === "Enter") {
+      this.setState({ searchText: [event.target.value] });
+      this.setState({ done: true });
+      this.setState({ remove: true });
+    } else {
+      this.setState({ remove: false });
+    }
   };
 
   render() {
     const classes = { ...styles };
-    return (
-      <div className={classes.container}>
-        <TextField
-          id="outlined-full-width"
-          label="Search"
-          style={{ margin: 8 }}
-          placeholder="Topic/Article"
-          fullWidth
-          margin="normal"
-          InputLabelProps={{
-            shrink: true
-          }}
-          variant="outlined"
-          onKeyPress={e => {
-            if (e.key === "Enter") {
-              //console.log("Enter key pressed"); //change to searching
-              //console.log(this.state.searchText)
-              // <Articles
-              // key={some id}
-              // searchText={searchText}
-            }
-          }}
-          onChange={e => this.handleTextChange(e.target)}
-        />
-      </div>
-    );
+    if (!(this.state.remove === true && this.state.done === true)) {
+      return (
+        <div className={classes.container}>
+          <TextField
+            id="outlined-full-width"
+            label="Search"
+            style={{ margin: 8 }}
+            placeholder="Topic/Article"
+            fullWidth
+            margin="normal"
+            InputLabelProps={{
+              shrink: true
+            }}
+            variant="outlined"
+            onKeyPress={this.keyPressed}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div className={classes.container}>
+          <TextField
+            id="outlined-full-width"
+            label="Search"
+            style={{ margin: 8 }}
+            placeholder="Topic/Article"
+            fullWidth
+            margin="normal"
+            InputLabelProps={{
+              shrink: true
+            }}
+            variant="outlined"
+            onKeyPress={this.keyPressed}
+          />
+          <ul style={{ display: "flex", flexWrap: "wrap", paddingTop: "10vh" }}>
+            {this.state.searchText.map(text => (
+              <Articles key={1} searchText={text} />
+            ))}
+          </ul>
+        </div>
+      );
+    }
   }
 }
 
