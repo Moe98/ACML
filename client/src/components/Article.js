@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import moment from "moment";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardActions from "@material-ui/core/CardActions";
+import Avatar from "@material-ui/core/Avatar";
+import IconButton from "@material-ui/core/IconButton";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const styles = {
   card: {
@@ -29,6 +32,13 @@ const styles = {
     height: 35,
     backgroundColor: "#3480E3"
   },
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto"
+  },
+  expandOpen: {
+    transform: "rotate(180deg)"
+  },
   cardActions: {
     height: 50
   },
@@ -44,37 +54,65 @@ const styles = {
   }
 };
 class Article extends Component {
+  routeTo(link) {
+    window.open(link); //This will open Google in a new
+  }
+
   formatTime(t) {
     return moment
       .utc(t.substring(0, 23))
       .format("DD MMM, YYYY")
       .toUpperCase();
   }
+
   render() {
     const classes = { ...styles };
 
     return (
+      //<Link to={this.props.article.url}>
       <Card style={classes.card}>
-        <CardActionArea>
-          <CardContent>
-            <Typography gutterBottom variant="h4" component="h2" />
-            <List style={classes.root}>
-              <ListItem>
-                <ListItemText primary={this.props.article.source.name} />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary={this.props.article.title} />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary={this.props.article.description} />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary={this.formatTime(this.props.article.publishedAt)} />
-              </ListItem>
-            </List>
-          </CardContent>
-        </CardActionArea>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" style={classes.avatar}>
+              {this.props.article.author
+                ? this.props.article.author.charAt(0)
+                : "NA"}
+            </Avatar>
+          }
+          action={
+            <IconButton
+              aria-label="add author to favorites"
+              title="favorite author"
+            >
+              <FavoriteIcon />
+            </IconButton>
+          }
+          title={this.props.article.title}
+          subheader={this.formatTime(this.props.article.publishedAt)}
+        />
+        <CardMedia
+          style={{
+            height: 0,
+            paddingTop: "56.25%"
+          }}
+          image={this.props.article.urlToImage}
+          title={this.props.article.description}
+        />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {this.props.article.content}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton aria-label="add to favorites" title="favorite article">
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton aria-label="share" title="continue reading">
+            <ExpandMoreIcon onClick={() => this.routeTo(this.props.article.url)} />
+          </IconButton>
+        </CardActions>
       </Card>
+      //</Link>
     );
   }
 }
