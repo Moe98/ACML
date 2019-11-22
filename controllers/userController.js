@@ -3,6 +3,10 @@ const bcrypt = require("../routes/api/utils/encryption.js");
 const newsURI = require("../config/keys_dev").newsURI;
 const NewsAPI = require("newsapi");
 const newsapi = new NewsAPI(newsURI);
+// const Request = require("request");
+// const fetch = require("node-fetch");
+// const fetch = require("whatwg-fetch");
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 const User = require("../models/User");
 
@@ -243,5 +247,62 @@ exports.updateFavouriteAuthors = async function(req, res) {
     res.send({ msg: "favourite authors  updated successfully" });
   } catch (error) {
     res.status(404).send({ error: " does exist" });
+  }
+};
+
+// recommend
+exports.recommend = async function(req, res) {
+  try {
+    const id = req.params.id;
+    const user = await User.findOne({ _id: id });
+    const topicsHistory = user.topicsHistory;
+    var recommededArticles = await searchForRecommendations(topicsHistory);
+    res.send({ data: recommededArticles });
+  } catch (error) {
+    res.status(404).send({ error: " error" });
+  }
+};
+
+// Search
+searchForRecommendations = async function(topicsHistory) {
+  try {
+    let recommededArticles = [];
+    var temp = topicsHistory.map(obj => {
+      let date = new Date();
+      let from =
+        date.getFullYear() + "-" + date.getMonth() + "-" + date.getUTCDate(); // handle this more precisely
+      let to =
+        date.getFullYear() +
+        "-" +
+        (date.getMonth() + 1) +
+        "-" +
+        date.getUTCDate();
+      try {
+        const Http = new XMLHttpRequest();
+        const url =
+          "https://newsapi.org/v2/top-headlines?" +
+          "q=" +
+          obj +
+          "&" +
+          "from=" +
+          from +
+          "&" +
+          "sortBy=popularity&" +
+          "apiKey=" +
+          newsURI;
+        Http.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            recommededArticles.push(JSON.parse(Http.responseText));
+          }
+        };
+        Http.open("GET", url, false);
+        Http.send();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    return recommededArticles;
+  } catch (error) {
+    res.status(404).send({ error: "user does not exist" });
   }
 };
