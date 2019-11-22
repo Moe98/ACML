@@ -15,11 +15,13 @@ const styles = {
 };
 
 class SearchField extends Component {
-  async componentDidMount() {
-    if (localStorage.getItem("lang"))
-      this.setState({ lang: localStorage.getItem("lang") });
-    else this.setState({ lang: "eng" });
-  }
+  state = {
+    searchText: ""
+  };
+
+  handleTextChange = eventTarget => {
+    this.setState({ searchText: eventTarget.value });
+  };
 
   render() {
     const classes = { ...styles };
@@ -36,6 +38,16 @@ class SearchField extends Component {
             shrink: true
           }}
           variant="outlined"
+          onKeyPress={e => {
+            if (e.key === "Enter") {
+              //console.log("Enter key pressed"); //change to searching
+              //console.log(this.state.searchText)
+              // <Articles
+              // key={some id}
+              // searchText={searchText}
+            }
+          }}
+          onChange={e => this.handleTextChange(e.target)}
         />
       </div>
     );
