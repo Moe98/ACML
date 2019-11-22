@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { Component } from "react";
 import logo from './logo.svg';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import SearchField from "./components/SearchField";
 import './App.css';
 
-function App() {
+class App extends Component {
+  render() {
   return (
+   <div>
+    <Router>
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -19,8 +24,12 @@ function App() {
           Learn React
         </a>
       </header>
+        <Route path="/SearchField" component={SearchField} />
+    </div>
+    </Router>
     </div>
   );
+  }
 }
 
 export default App;
