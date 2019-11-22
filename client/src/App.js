@@ -10,7 +10,7 @@ class App extends Component {
    <div>
     <Router>
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -23,8 +23,8 @@ class App extends Component {
         >
           Learn React
         </a>
-      </header>
-        <Route path="/SearchField" component={SearchField} />
+      </header> */}
+        <Route path="/" component={SearchField} />
     </div>
     </Router>
     </div>
