@@ -3,9 +3,10 @@ const bcrypt = require("../routes/api/utils/encryption.js");
 const newsURI = require("../config/keys_dev").newsURI;
 const NewsAPI = require("newsapi");
 const newsapi = new NewsAPI(newsURI);
-// const Request = require("request");
-// const fetch = require("node-fetch");
-// const fetch = require("whatwg-fetch");
+const passport = require("passport");
+const tokenKey = require("../config/keys_dev").secretOrKey;
+const jwt = require("jsonwebtoken");
+
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 const User = require("../models/User");
@@ -305,4 +306,36 @@ searchForRecommendations = async function(topicsHistory) {
   } catch (error) {
     res.status(404).send({ error: "user does not exist" });
   }
+};
+
+//login
+exports.login = function(req, res, next) {
+  passport.authenticate("users", async function(err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.send({ error: "User not found" });
+    }
+    req.logIn(user, async function(err) {
+      try {
+        if (err) {
+          return next(err);
+        }
+        var user = await User.where("email", req.body.email);
+
+        const payload = {
+          id: user[0]._id,
+          email: user[0].email,
+          type: "user"
+        };
+
+        const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
+        res.json({ data: `Bearer ${token}` });
+        return res.json({ data: "Token" });
+      } catch (err) {
+        return err;
+      }
+    });
+  })(req, res, next);
 };

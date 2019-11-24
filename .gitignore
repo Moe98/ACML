@@ -64,3 +64,5 @@ typings/
 # next.js build output
 .next
 config/keys_dev.js
+.node-xmlhttprequest-sync-11556
+.node-xmlhttprequest-sync-14884

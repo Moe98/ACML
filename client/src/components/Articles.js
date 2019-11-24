@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Article from "./Article";
+import parseJwt from "../helpers/decryptAuthToken";
 
 class Articles extends Component {
   constructor(props) {
@@ -12,13 +13,21 @@ class Articles extends Component {
   }
 
   async componentDidMount() {
-    console.log("inside articles", this.props.searchText);
-    const res = await axios.post(
-      `http://localhost:5000/api/users/search/5dd6c4bd9a80c44d5089b31e/${this.props.searchText}`
-    ); //change hardcoded id
-    // console.log(res.data.data.articles);
-    console.log(res.data.data.articles)
-    this.setState({ articles: res.data.data.articles });
+    if (!localStorage.jwtToken) {
+      alert("You must login!");
+      return;
+    }
+    try {
+      await this.setState({ id: parseJwt(localStorage.jwtToken).id });
+      console.log(this.state.id);
+      console.log("inside articles", this.props.searchText);
+      const res = await axios.post(
+        `http://localhost:5000/api/users/search/${this.state.id}/${this.props.searchText}`
+      );
+      this.setState({ articles: res.data.data.articles });
+    } catch {
+      this.setState({ id: null });
+    }
   }
 
   render() {
