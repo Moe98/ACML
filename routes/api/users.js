@@ -4,9 +4,10 @@ const router = express.Router();
 
 const userController = require("../../controllers/userController");
 
-//Read
+//Get All Users
 router.get("/", userController.getAllUsers);
 
+//Get Specific User
 router.get("/:id", userController.getUser);
 
 //Create
@@ -19,13 +20,12 @@ router.put("/:id", userController.updateUser);
 router.delete("/:id", userController.deleteUser);
 
 //Search
-
 router.post("/search/:id/:searchQuery", userController.search);
 
 // get Favourite Articles
 router.get("/favouriteArticles/:id", userController.getFavoriteArticles);
 
-// update FavouriteArticles
+// update Favourite Articles
 router.put("/favouriteArticles/:id", userController.updateFavouriteArticles);
 
 // get Favourite Authors
@@ -36,5 +36,8 @@ router.put("/favouriteAuthors/:id", userController.updateFavouriteAuthors);
 
 // recommend Articles
 router.get("/recommend/:id", userController.recommend);
+
+// login
+router.post("/login", userController.login);
 
 module.exports = router;

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 import Articles from "./Articles";
 import RecommendedArticles from "./RecommendedArticles";
 const styles = {
   button: {
-    margin: 1,
+    margin: 1
   },
   container: {
     display: "flex",
@@ -18,7 +18,7 @@ const styles = {
     width: 200
   },
   input: {
-    display: 'none',
+    display: "none"
   }
 };
 
@@ -29,7 +29,8 @@ class SearchField extends Component {
       searchText: [],
       done: false,
       remove: false,
-      clicked: false
+      clicked: false,
+      recommendedDone: false
     };
   }
   componentDidMount() {
@@ -38,6 +39,7 @@ class SearchField extends Component {
     this.setState({ remove: false });
     this.setState({ clicked: false });
     this.setState({ againClicked: false });
+    this.setState({ recommendedDone: false });
   }
 
   keyPressed = event => {
@@ -54,29 +56,36 @@ class SearchField extends Component {
   };
 
   onClick = event => {
-    if(!this.state.clicked)   {
+    if (!this.state.clicked) {
       this.setState({ clicked: true });
       this.setState({ againClicked: false });
-    }
-    else{
+    } else {
       this.setState({ clicked: false });
       this.setState({ againClicked: true });
     }
 
     this.setState({ remove: false });
-   
   };
 
   render() {
     const classes = { ...styles };
-    if (!(this.state.remove === true && this.state.done === true)||this.state.clicked === true||this.state.againClicked === true) {
+    if (
+      !(this.state.remove === true && this.state.done === true) ||
+      this.state.clicked === true ||
+      this.state.againClicked === true
+    ) {
       return (
         <div className={classes.container}>
-            <div>
-           <Button variant="outlined" color="inherit" className={classes.button}  onClick={this.onClick}>
-             Home
-           </Button>
-           </div>
+          <div>
+            <Button
+              variant="outlined"
+              color="inherit"
+              className={classes.button}
+              onClick={this.onClick}
+            >
+              Home
+            </Button>
+          </div>
           <TextField
             id="outlined-full-width"
             label="Search"
@@ -91,20 +100,29 @@ class SearchField extends Component {
             onKeyPress={this.keyPressed}
           />
           <ul style={{ display: "flex", flexWrap: "wrap", paddingTop: "10vh" }}>
-            {
-              <RecommendedArticles key={1} />
-            }
+            {<RecommendedArticles key={1} />}
+            {!this.state.recommendedDone
+              ? this.setState({ recommendedDone: true })
+              : null}
           </ul>
         </div>
       );
-    } else if(this.state.clicked === false&&this.state.againClicked === false) {
+    } else if (
+      this.state.clicked === false &&
+      this.state.againClicked === false
+    ) {
       return (
         <div className={classes.container}>
-            <div>
-           <Button variant="outlined" color="inherit" className={classes.button}  onClick={this.onClick}>
-             Home
-           </Button>
-           </div>
+          <div>
+            <Button
+              variant="outlined"
+              color="inherit"
+              className={classes.button}
+              onClick={this.onClick}
+            >
+              Home
+            </Button>
+          </div>
           <TextField
             id="outlined-full-width"
             label="Search"

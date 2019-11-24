@@ -4,8 +4,12 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const cors = require("cors");
 const path = require("path");
+const passport = require("passport");
 const users = require("./routes/api/users");
 //Require Route Handlers
+
+// Passport Config
+require("./config/passport")(passport);
 
 const app = express();
 
@@ -14,17 +18,15 @@ app.use(cors());
 //Getting Mongo's connection URI
 const db = require("./config/keys").mongoURI;
 
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
 
 //Connecting to MongoDB
 mongoose
   .connect(db)
   .then(() => console.log("Connected to MongoDB"))
   .catch(err => console.log(err));
-
-
 
 //Middleware
 app.use(express.json());
@@ -38,6 +40,10 @@ app.use(
     saveUninitialized: true
   })
 );
+
+//Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Connect flash
 app.use(flash());
@@ -57,7 +63,9 @@ app.use("/api/users", users);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
   //Homepage
-  app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "client", "build", "index.html")));
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  );
 } else {
   app.get("/", (req, res) => res.send("Homepage"));
 }

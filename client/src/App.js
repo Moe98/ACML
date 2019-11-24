@@ -1,9 +1,15 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import SearchField from "./components/SearchField";
-import RecommendedArticles from "./components/RecommendedArticles";
+import setAuthToken from "./helpers/setAuthToken";
+import Login from "./components/login/Login";
 import FavouriteArticles from "./components/FavouriteArticles";
+
 import "./App.css";
+
+if (localStorage.jwtToken) {
+  setAuthToken(localStorage.jwtToken);
+}
 
 class App extends Component {
   render() {
@@ -11,21 +17,8 @@ class App extends Component {
       <div>
         <Router>
           <div className="App">
-            {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-            <Route path="/" component={SearchField} />
+            <Route exact path="/" component={SearchField} />
+            <Route path="/Login" component={Login} />
             <Route path="/favourite" component={FavouriteArticles} />
           </div>
         </Router>
