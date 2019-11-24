@@ -201,7 +201,7 @@ exports.updateFavouriteArticles = async function(req, res) {
       res.status(404).send({ error: "user does not exist" });
       return;
     }
-    const newFavourite = req.body.link;
+    const newFavourite = req.body;
 
     var favoriteArticles = user.favoriteArticles;
     var flag = true;
