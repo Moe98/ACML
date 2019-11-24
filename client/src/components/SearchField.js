@@ -5,18 +5,17 @@ import { Redirect } from "react-router-dom";
 import Articles from "./Articles";
 import RecommendedArticles from "./RecommendedArticles";
 import FavoriteArticles from "./FavouriteArticles";
+import Login from "./login/Login";
 
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import { fade, withStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import SearchIcon from "@material-ui/icons/Search";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 
 const styles = theme => ({
   grow: {
@@ -90,7 +89,8 @@ class SearchField extends Component {
       clicked: false,
       recommendedDone: false,
       login: false,
-      favorite: false
+      favorite: false,
+      home: false
     };
   }
   async componentDidMount() {
@@ -109,25 +109,30 @@ class SearchField extends Component {
   }
 
   keyPressed = event => {
-    console.log([event.target.value]);
     if (event.key === "Enter") {
       this.setState({ searchText: [event.target.value] });
       this.setState({ done: true });
       this.setState({ remove: true });
       this.setState({ clicked: false });
       this.setState({ againClicked: false });
+      this.setState({ favorite: false });
+      this.setState({ home: false });
+      this.setState({ recommendedDone: false });
     } else {
       this.setState({ remove: false });
     }
   };
 
   handleLogin = () => {
+    console.log("in here?");
+    console.log("id", this.state.id);
     if (this.state.id) {
-      console.log("here?");
       logout();
       window.location.reload();
     } else {
       if (!this.state.login) {
+        console.log("here");
+        this.setState({ home: false });
         this.setState({ login: true });
       }
     }
@@ -135,7 +140,28 @@ class SearchField extends Component {
 
   handleFavorite = () => {
     this.setState({ favorite: true });
+    this.setState({ searchText: [] });
+    this.setState({ done: false });
+    this.setState({ remove: false });
+    this.setState({ clicked: false });
+    this.setState({ againClicked: false });
+    this.setState({ recommendedDone: false });
+    this.setState({ login: false });
+    this.setState({ home: false });
   };
+
+  handleHome = () => {
+    this.setState({ home: true });
+    this.setState({ searchText: [] });
+    this.setState({ done: false });
+    this.setState({ remove: false });
+    this.setState({ clicked: false });
+    this.setState({ againClicked: false });
+    this.setState({ recommendedDone: false });
+    this.setState({ login: false });
+    this.setState({ favorite: false });
+  };
+
   onClick = event => {
     if (!this.state.clicked) {
       this.setState({ clicked: true });
@@ -151,20 +177,20 @@ class SearchField extends Component {
   render() {
     const { classes } = this.props;
     if (
-      !(this.state.remove === true && this.state.done === true) ||
-      this.state.clicked === true ||
-      this.state.againClicked === true
+      (!(this.state.remove === true && this.state.done === true) ||
+        this.state.clicked === true ||
+        this.state.againClicked === true) &&
+      this.state.favorite === false &&
+      this.state.login === false
     ) {
       return (
         <div className={classes.grow}>
-          {this.state.login ? (
-            <Redirect to="/Login" />
-          ) : this.state.favorite ? (
-            <Redirect to="favourite" />
-          ) : null}
+          {this.state.home ? <Redirect to="/" /> : null}
           <AppBar position="static">
             <Toolbar>
-              <Button color="inherit">News App</Button>
+              <Button color="inherit" onClick={this.handleHome}>
+                News App
+              </Button>
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
@@ -207,18 +233,18 @@ class SearchField extends Component {
       );
     } else if (
       this.state.clicked === false &&
-      this.state.againClicked === false
+      this.state.againClicked === false &&
+      this.state.favorite === false &&
+      this.state.login === false
     ) {
       return (
         <div className={classes.grow}>
-          {this.state.login ? (
-            <Redirect to="/Login" />
-          ) : this.state.favorite ? (
-            <Redirect to="favourite" />
-          ) : null}
+          {this.state.home ? <Redirect to="/" /> : null}
           <AppBar position="static">
             <Toolbar>
-              <Button color="inherit">News App</Button>
+              <Button color="inherit" onClick={this.handleHome}>
+                News App
+              </Button>
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
@@ -256,6 +282,94 @@ class SearchField extends Component {
               <Articles key={1} searchText={text} />
             ))}
           </ul>
+        </div>
+      );
+    } else if (this.state.favorite === true) {
+      return (
+        <div className={classes.grow}>
+          {this.state.home ? <Redirect to="/" /> : null}
+          <AppBar position="static">
+            <Toolbar>
+              <Button color="inherit" onClick={this.handleHome}>
+                News App
+              </Button>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  disabled={this.state.id ? false : true}
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                  onKeyPress={this.keyPressed}
+                />
+              </div>
+              <div className={classes.grow} />
+              <div className={classes.sectionDesktop}>
+                <IconButton
+                  disabled={this.state.id ? false : true}
+                  color="inherit"
+                  onClick={this.handleFavorite}
+                >
+                  <Badge color="secondary">
+                    <FavoriteIcon />
+                  </Badge>
+                </IconButton>
+                <Button color="inherit" onClick={this.handleLogin}>
+                  {this.state.id ? "Logout" : "Login"}
+                </Button>
+              </div>
+            </Toolbar>
+          </AppBar>
+          <FavoriteArticles />
+        </div>
+      );
+    } else if (this.state.login === true) {
+      return (
+        <div className={classes.grow}>
+          {this.state.home ? <Redirect to="/" /> : null}
+          <AppBar position="static">
+            <Toolbar>
+              <Button color="inherit" onClick={this.handleHome}>
+                News App
+              </Button>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  disabled={this.state.id ? false : true}
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                  onKeyPress={this.keyPressed}
+                />
+              </div>
+              <div className={classes.grow} />
+              <div className={classes.sectionDesktop}>
+                <IconButton
+                  disabled={this.state.id ? false : true}
+                  color="inherit"
+                  onClick={this.handleFavorite}
+                >
+                  <Badge color="secondary">
+                    <FavoriteIcon />
+                  </Badge>
+                </IconButton>
+                <Button color="inherit" onClick={this.handleLogin}>
+                  {this.state.id ? "Logout" : "Login"}
+                </Button>
+              </div>
+            </Toolbar>
+          </AppBar>
+          <Login />
         </div>
       );
     }

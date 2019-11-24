@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import SearchField from "../SearchField";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
@@ -59,7 +58,7 @@ class Login extends Component {
 
   render() {
     if (this.state.loggedIn) {
-      return <Redirect to="/" />;
+      window.location.reload();
     }
     const styles = {
       error: {
@@ -72,8 +71,7 @@ class Login extends Component {
     };
     return (
       <div>
-        <SearchField />
-        <div style={{ paddingTop: "10vh"}}>
+        <div style={{ paddingTop: "10vh" }}>
           <div className="wrapper">
             <div className="page-header">
               <div className="filter" />
