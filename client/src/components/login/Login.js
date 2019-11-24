@@ -71,7 +71,7 @@ class Login extends Component {
     };
     return (
       <div>
-        <div style={{ paddingTop: "10vh" }}>
+        <div style={{ paddingTop: "5vh" }}>
           <div className="wrapper">
             <div className="page-header">
               <div className="filter" />
