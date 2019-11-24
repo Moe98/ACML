@@ -6,9 +6,7 @@ const newsapi = new NewsAPI(newsURI);
 const passport = require("passport");
 const tokenKey = require("../config/keys_dev").secretOrKey;
 const jwt = require("jsonwebtoken");
-
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-
 const User = require("../models/User");
 
 // get All Users
@@ -32,7 +30,6 @@ exports.getUser = async function(req, res) {
 async function checkUniqueEmail(email) {
   const existingUser = await User.findOne({ email: email });
   if (existingUser) return false;
-
   return true;
 }
 
