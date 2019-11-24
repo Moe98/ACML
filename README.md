@@ -1,6 +1,6 @@
 # ACML
 
-#### To get started
+#### Get started
 
 - First clone the repo and open it locally from your favorite editor.
 
