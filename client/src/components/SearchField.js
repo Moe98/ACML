@@ -6,7 +6,6 @@ import Articles from "./Articles";
 import RecommendedArticles from "./RecommendedArticles";
 import FavoriteArticles from "./FavouriteArticles";
 import Login from "./login/Login";
-
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import { fade, withStyles } from "@material-ui/core/styles";
