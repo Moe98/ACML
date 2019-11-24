@@ -11,6 +11,7 @@ import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import axios from "axios";
 
 const styles = {
   card: {
@@ -64,6 +65,12 @@ class Article extends Component {
       .format("DD MMM, YYYY")
       .toUpperCase();
   }
+  async addFavourite(article) {
+    const res = await axios.post(
+      `http://localhost:5000/api/users/favouriteArticles/5dd6c4bd9a80c44d5089b31e`,
+      article
+    );
+  }
 
   render() {
     const classes = { ...styles };
@@ -104,11 +111,17 @@ class Article extends Component {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites" title="favorite article">
+          <IconButton
+            aria-label="add to favorites"
+            oncClick={() => this.addFavourite(this.props.article)}
+            title="favorite article"
+          >
             <FavoriteIcon />
           </IconButton>
           <IconButton aria-label="share" title="continue reading">
-            <ExpandMoreIcon onClick={() => this.routeTo(this.props.article.url)} />
+            <ExpandMoreIcon
+              onClick={() => this.routeTo(this.props.article.url)}
+            />
           </IconButton>
         </CardActions>
       </Card>

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import SearchField from "./components/SearchField";
 import setAuthToken from "./helpers/setAuthToken";
 import Login from "./components/login/Login";
+import FavouriteArticles from "./components/FavouriteArticles";
 
 import "./App.css";
 
@@ -18,6 +19,7 @@ class App extends Component {
           <div className="App">
             <Route exact path="/" component={SearchField} />
             <Route path="/Login" component={Login} />
+            <Route path="/favourite" component={FavouriteArticles} />
           </div>
         </Router>
       </div>
