@@ -29,6 +29,7 @@ class Login extends Component {
     };
     try {
       const res = await login(req);
+      this.setState({ loggedIn: true });
       this.setState({ res: res });
     } catch (error) {
       document.getElementById("Error").style.display = "inline";
@@ -57,7 +58,7 @@ class Login extends Component {
 
   render() {
     if (this.state.loggedIn) {
-      return <Redirect to="/" />;
+      window.location.reload();
     }
     const styles = {
       error: {
@@ -72,7 +73,7 @@ class Login extends Component {
       <div>
         <div style={{ paddingTop: "10vh" }}>
           <div className="wrapper">
-            <div className="page-header" style={{}}>
+            <div className="page-header">
               <div className="filter" />
               <div className="container">
                 <div className="row">
@@ -141,7 +142,7 @@ class Login extends Component {
                           <Fab
                             variant="extended"
                             size="large"
-                            color="secondary"
+                            color="primary"
                             style={{
                               color: "#FFFFFF",
                               height: "31px",
@@ -170,57 +171,26 @@ class Login extends Component {
                         )}
                       </form>
                       <br />
-                      <div className="forgot">
+                      <div className="register">
                         <Button
                           variant="text"
                           style={{
                             fontFamily:
                               "-apple-system, BlinkMacSystemFont, sans-serif",
-                            color: "#E53167",
+                            color: "#0000FF",
                             fontSize: "11px",
                             fontWeight: "bold"
                           }}
                           size="small"
                           onClick={() => {
-                            this.setState({ forgot: true });
+                            this.setState({ register: true });
                           }}
                         >
-                          {"Forgot password?"}{" "}
+                          {"Register?"}{" "}
                         </Button>
                       </div>
                       <br />
                       <br />
-                      <div
-                        style={{
-                          textAlign: "left",
-                          color: "black",
-                          fontFamily:
-                            "-apple-system, BlinkMacSystemFont, sans-serif",
-                          fontSize: "11px"
-                        }}
-                      >
-                        {this.state.lang === "eng"
-                          ? "Don't have an account?"
-                          : ""}
-                        <div
-                          className="btn btn-link btn-info"
-                          style={{
-                            textAlign: "left",
-                            color: "black",
-                            fontFamily:
-                              "-apple-system, BlinkMacSystemFont, sans-serif",
-                            fontSize: "11px",
-                            marginTop: "-1px",
-                            outline: "none",
-                            border: "none"
-                          }}
-                          onClick={() => {
-                            this.setState({ register: true });
-                          }}
-                        >
-                          {"Register Now"}
-                        </div>
-                      </div>
                     </div>
                     {/* {this.state.res.toString() === "investor" ? (
                       <Redirect to={{ pathname: "/profile" }} />

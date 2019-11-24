@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import axios from "axios";
+import parseJwt from "../helpers/decryptAuthToken";
 
 const styles = {
   card: {
@@ -59,6 +60,13 @@ class Article extends Component {
     window.open(link); //This will open Google in a new
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      heartPressed: false
+    };
+  }
+
   formatTime(t) {
     return moment
       .utc(t.substring(0, 23))
@@ -66,17 +74,24 @@ class Article extends Component {
       .toUpperCase();
   }
   async addFavourite(article) {
-    const res = await axios.post(
-      `http://localhost:5000/api/users/favouriteArticles/5dd6c4bd9a80c44d5089b31e`,
-      article
-    );
+    this.setState({ heartPressed: true });
+    if (!localStorage.jwtToken) {
+      alert("You must login!");
+      return;
+    }
+    try {
+      let id = await parseJwt(localStorage.jwtToken).id;
+      const res = await axios.put(
+        `http://localhost:5000/api/users/favouriteArticles/${id}`,
+        article
+      );
+    } catch {}
   }
 
   render() {
     const classes = { ...styles };
 
     return (
-      //<Link to={this.props.article.url}>
       <Card style={classes.card}>
         <CardHeader
           avatar={
@@ -85,14 +100,6 @@ class Article extends Component {
                 ? this.props.article.author.charAt(0)
                 : "NA"}
             </Avatar>
-          }
-          action={
-            <IconButton
-              aria-label="add author to favorites"
-              title="favorite author"
-            >
-              <FavoriteIcon />
-            </IconButton>
           }
           title={this.props.article.title}
           subheader={this.formatTime(this.props.article.publishedAt)}
@@ -113,10 +120,12 @@ class Article extends Component {
         <CardActions disableSpacing>
           <IconButton
             aria-label="add to favorites"
-            oncClick={() => this.addFavourite(this.props.article)}
+            onClick={() => this.addFavourite(this.props.article)}
             title="favorite article"
           >
-            <FavoriteIcon />
+            <FavoriteIcon
+              style={{ color: this.state.heartPressed ? "FF0000" : "888888" }}
+            />
           </IconButton>
           <IconButton aria-label="share" title="continue reading">
             <ExpandMoreIcon
