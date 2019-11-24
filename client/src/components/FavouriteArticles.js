@@ -10,22 +10,22 @@ class FavouriteArticles extends Component {
     };
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     const res = await axios.get(
-      `http://localhost:5000/api/users/favouriteArticles/5dd6c4bd9a80c44d5089b31e`
+      `http://localhost:5000/api/users/favouriteArticles/5dda846b6a01150b5df8bc3f`
     );
     this.setState({
-      FavouriteArticles: res.data
+      FavouriteArticles: res.data.data
     });
   }
 
   render() {
     console.log(this.state.FavouriteArticles);
-    if (this.state.FavouriteArticles) {
+    if (this.state.FavouriteArticles !== []) {
       return (
-        <div>
+        <div style={{ display: "inline-block" }}>
           {this.state.FavouriteArticles.map(article => (
-            <div class="column small-3">
+            <div style={{ display: "inline-block" }}>
               <Article key={article._id} article={article} />
             </div>
           ))}

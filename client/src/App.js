@@ -2,15 +2,16 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import SearchField from "./components/SearchField";
 import RecommendedArticles from "./components/RecommendedArticles";
-import './App.css';
+import FavouriteArticles from "./components/FavouriteArticles";
+import "./App.css";
 
 class App extends Component {
   render() {
-  return (
-   <div>
-    <Router>
-    <div className="App">
-      {/* <header className="App-header">
+    return (
+      <div>
+        <Router>
+          <div className="App">
+            {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -24,11 +25,12 @@ class App extends Component {
           Learn React
         </a>
       </header> */}
-        <Route path="/" component={SearchField} />
-    </div>
-    </Router>
-    </div>
-  );
+            <Route path="/" component={SearchField} />
+            <Route path="/favourite" component={FavouriteArticles} />
+          </div>
+        </Router>
+      </div>
+    );
   }
 }
 
