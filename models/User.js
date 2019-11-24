@@ -17,10 +17,34 @@ const UserSchema = new Schema({
   favoriteArticles: {
     type: [
       {
-
-        type: String,
-        required: true
-
+        author: {
+          type: String,
+          required: false
+        },
+        title: {
+          type: String,
+          required: false
+        },
+        publishedAt: {
+          type: Date,
+          required: false
+        },
+        urlToImage: {
+          type: String,
+          required: false
+        },
+        description: {
+          type: String,
+          required: false
+        },
+        content: {
+          type: String,
+          required: false
+        },
+        url: {
+          type: String,
+          required: false
+        }
       }
     ],
     default: [],
@@ -29,10 +53,8 @@ const UserSchema = new Schema({
   favoriteAuthors: {
     type: [
       {
-
         type: String,
         required: true
-
       }
     ],
     default: [],
