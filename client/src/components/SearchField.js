@@ -199,7 +199,7 @@ class SearchField extends Component {
               <Button
                 color="inherit"
                 onClick={this.handleHome}
-                style={{ color: "red" }}
+                style={{ color: "#FF69B4" }}
               >
                 News App
               </Button>
