@@ -199,43 +199,10 @@ class Login extends Component {
                         <br />
                         <br />
                       </div>
-                      {/* {this.state.res.toString() === "investor" ? (
-                      <Redirect to={{ pathname: "/profile" }} />
-                    ) : this.state.res.toString() === "lawyer" ? (
-                      <Redirect
-                        to={{ pathname: "/internalPortal/lawyer/profile" }}
-                      />
-                    ) : this.state.res.toString() === "reviewer" ? (
-                      <Redirect
-                        to={{ pathname: "/internalPortal/reviewer/profile" }}
-                      />
-                    ) : this.state.res.toString() === "admin" ? (
-                      <Redirect to={{ pathname: "/AdminDashBoard" }} />
-                    ) : (
-                      <label />
-                    )} */}
                     </div>
-                    {/* {this.state.forgot === true ? (
-                    <Redirect to={{ pathname: "/forgot" }} />
-                  ) : this.state.register === true ? (
-                    <Redirect to={{ pathname: "/InvestorRegister" }} />
-                  ) : (
-                    <label />
-                  )} */}
                   </div>
                 </div>
               </div>
-              {/* {this.state.res.toString() === "investor" ? (
-              <Redirect to={{ pathname: "/investorDashboard" }} />
-            ) : this.state.res.toString() === "lawyer" ? (
-              <Redirect to={{ pathname: "/lawyerDashboard" }} />
-            ) : this.state.res.toString() === "reviewer" ? (
-              <Redirect to={{ pathname: "/reviewerDashboard" }} />
-            ) : this.state.res.toString() === "admin" ? (
-              <Redirect to={{ pathname: "/adminDashboard" }} />
-            ) : (
-              <label />
-            )} */}
             </div>
           </div>
         </div>
