@@ -1,5 +1,9 @@
 # ACML
 
+#### Discription
+
+News-Geeks is a website that helps you search for topics and articles and it also supports variety of features like saving articles in favorites , also it recommends articles to read based on your reading and searching history .
+
 #### To get started
 
 - First clone the repo and open it locally from your favorite editor.
