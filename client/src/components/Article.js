@@ -81,7 +81,7 @@ class Article extends Component {
     }
     try {
       let id = await parseJwt(localStorage.jwtToken).id;
-      const res = await axios.put(
+      await axios.put(
         `http://localhost:5000/api/users/favouriteArticles/${id}`,
         article
       );
@@ -90,7 +90,6 @@ class Article extends Component {
 
   render() {
     const classes = { ...styles };
-
     return (
       <Card style={classes.card}>
         <CardHeader
