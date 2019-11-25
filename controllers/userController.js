@@ -6,9 +6,7 @@ const newsapi = new NewsAPI(newsURI);
 const passport = require("passport");
 const tokenKey = require("../config/keys_dev").secretOrKey;
 const jwt = require("jsonwebtoken");
-
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-
 const User = require("../models/User");
 
 // get All Users
@@ -32,7 +30,6 @@ exports.getUser = async function(req, res) {
 async function checkUniqueEmail(email) {
   const existingUser = await User.findOne({ email: email });
   if (existingUser) return false;
-
   return true;
 }
 
@@ -153,13 +150,6 @@ exports.search = async function(req, res) {
         })
         .then(response => {
           res.json({ data: response });
-          //console.log(response);
-          /*
-            {
-              status: "ok",
-              articles: [...]
-            }
-          */
         });
     } catch (error) {
       res.status(404).send({ error: "failed to search" });
@@ -206,8 +196,17 @@ exports.updateFavouriteArticles = async function(req, res) {
 
     var favoriteArticles = user.favoriteArticles;
     var flag = true;
-    for (var i = 0; i < favoriteArticles.length; i++)
-      if (favoriteArticles[i] === newFavourite) flag = false;
+    for (var i = 0; i < favoriteArticles.length; i++) {
+      let count = 0;
+      if (favoriteArticles[i].author === newFavourite.author) count++;
+      if (favoriteArticles[i].title === newFavourite.title) count++;
+      if (favoriteArticles[i].description === newFavourite.description) count++;
+      if (favoriteArticles[i].url === newFavourite.url) count++;
+      if (favoriteArticles[i].urlToImage === newFavourite.urlToImage) count++;
+      if (favoriteArticles[i].publishedAt === newFavourite.publishedAt) count++;
+      if (favoriteArticles[i].content === newFavourite.content) count++;
+      if (count === 6) flag = false;
+    }
 
     if (flag) {
       favoriteArticles.push(newFavourite);
@@ -216,9 +215,9 @@ exports.updateFavouriteArticles = async function(req, res) {
         favoriteArticles
       });
     }
-    res.send({ msg: "favourite article  updated successfully" });
+    res.send({ msg: "favourite article updated successfully" });
   } catch (error) {
-    res.status(404).send({ error: " does exist" });
+    res.status(404).send({ error: "does exist" });
   }
 };
 
@@ -298,9 +297,7 @@ searchForRecommendations = async function(topicsHistory) {
         };
         Http.open("GET", url, false);
         Http.send();
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     });
     return recommededArticles;
   } catch (error) {
