@@ -19,7 +19,6 @@ class RecommendedArticles extends Component {
       return;
     }
     try {
-      console.log("in here");
       await this.setState({ id: parseJwt(localStorage.jwtToken).id });
       const res = await axios.get(
         `http://localhost:5000/api/users/recommend/${this.state.id}`

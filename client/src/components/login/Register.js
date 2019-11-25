@@ -96,11 +96,8 @@ export default class Register extends Component {
     if (valid) {
       try {
         await axios.post("http://localhost:5000/api/users/", body);
-        console.log("here");
         await login(body);
-        console.log("logged in");
         window.location.reload();
-        console.log("reloaded");
         await this.setState({ success: true, loading: false });
         this.setState({ val: "Successfully Created!" });
       } catch (error) {
