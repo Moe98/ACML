@@ -123,14 +123,11 @@ class SearchField extends Component {
   };
 
   handleLogin = () => {
-    console.log("in here?");
-    console.log("id", this.state.id);
     if (this.state.id) {
       logout();
       window.location.reload();
     } else {
       if (!this.state.login) {
-        console.log("here");
         this.setState({ home: false });
         this.setState({ login: true });
       }
@@ -175,6 +172,53 @@ class SearchField extends Component {
 
   render() {
     const { classes } = this.props;
+    if (!this.state.id && this.state.login === false) {
+      return (
+        <div className={classes.grow}>
+          <AppBar position="static">
+            <Toolbar>
+              <Button
+                color="inherit"
+                onClick={this.handleHome}
+                style={{ color: "red" }}
+              >
+                News App
+              </Button>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  disabled={this.state.id ? false : true}
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                  onKeyPress={this.keyPressed}
+                />
+              </div>
+              <div className={classes.grow} />
+              <div className={classes.sectionDesktop}>
+                <IconButton
+                  disabled={this.state.id ? false : true}
+                  color="inherit"
+                  onClick={this.handleFavorite}
+                >
+                  <Badge color="secondary">
+                    <FavoriteIcon />
+                  </Badge>
+                </IconButton>
+                <Button color="inherit" onClick={this.handleLogin}>
+                  {this.state.id ? "Logout" : "Login"}
+                </Button>
+              </div>
+            </Toolbar>
+          </AppBar>
+        </div>
+      );
+    }
     if (
       (!(this.state.remove === true && this.state.done === true) ||
         this.state.clicked === true ||
@@ -187,7 +231,11 @@ class SearchField extends Component {
           {this.state.home ? <Redirect to="/" /> : null}
           <AppBar position="static">
             <Toolbar>
-              <Button color="inherit" onClick={this.handleHome}>
+              <Button
+                color="inherit"
+                onClick={this.handleHome}
+                style={{ color: "red" }}
+              >
                 News App
               </Button>
               <div className={classes.search}>
@@ -315,7 +363,7 @@ class SearchField extends Component {
                   onClick={this.handleFavorite}
                 >
                   <Badge color="secondary">
-                    <FavoriteIcon />
+                    <FavoriteIcon style={{ color: "FF0000" }} />
                   </Badge>
                 </IconButton>
                 <Button color="inherit" onClick={this.handleLogin}>

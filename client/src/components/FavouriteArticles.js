@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import axios from "axios";
 import Article from "./Article";
 import parseJwt from "../helpers/decryptAuthToken";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class FavouriteArticles extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      FavouriteArticles: []
+      FavouriteArticles: [],
+      done: false
     };
   }
 
@@ -21,17 +23,17 @@ class FavouriteArticles extends Component {
       const res = await axios.get(
         `http://localhost:5000/api/users/favouriteArticles/${this.state.id}`
       );
-      this.setState({
+      await this.setState({
         FavouriteArticles: res.data.data
       });
+      await this.setState({ done: true });
     } catch {
       this.setState({ id: null });
     }
   }
 
   render() {
-    console.log(this.state.FavouriteArticles);
-    if (this.state.FavouriteArticles !== []) {
+    if (this.state.done) {
       return (
         <ul style={{ display: "flex", flexWrap: "wrap", paddingTop: "10vh" }}>
           {this.state.FavouriteArticles.map(article => (
@@ -39,7 +41,14 @@ class FavouriteArticles extends Component {
           ))}
         </ul>
       );
-    } else return <div></div>;
+    } else {
+      return (
+        <div>
+          <CircularProgress style={{ marginTop: "36vh", marginLeft: "5vw" }} />
+          <h3 style={{ marginLeft: "5vw" }}>Fetching Data</h3>
+        </div>
+      );
+    }
   }
 }
 export default FavouriteArticles;
