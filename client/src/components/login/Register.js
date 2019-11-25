@@ -221,7 +221,7 @@ export default class Register extends Component {
                             aria-label="Delete"
                             onClick={this.submit}
                           >
-                            {"Login"}
+                            {"Register"}
                           </Fab>
                         ) : (
                           <CircularProgress
