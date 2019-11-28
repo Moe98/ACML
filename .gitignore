@@ -65,3 +65,4 @@ typings/
 .next
 config/keys_dev.js
 .node-xmlhttprequest-sync-*
+.dockerignore
