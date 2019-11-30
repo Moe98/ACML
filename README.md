@@ -12,6 +12,7 @@ News-App is a website that helps you search for topics and articles and it also 
 - Run ```npm install```, then change directory to client using ```cd client``` and run ```npm install``` there as well.
 
 - Connect it to your own ```MongoDB``` and ```News API``` from [here](https://newsapi.org/). Then add the ```mongoURI``` and ```newsURI``` and ```secretOrKey``` to a file named ```keys_dev.js``` under ```config``` folder.
+- To Run using ```Docker``` cmd is docker-compose up 
 
 ```javascript
 module.exports = {
