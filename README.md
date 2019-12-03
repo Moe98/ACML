@@ -12,7 +12,11 @@ News-App is a website that helps you search for topics and articles and it also 
 - Run ```npm install```, then change directory to client using ```cd client``` and run ```npm install``` there as well.
 
 - Connect it to your own ```MongoDB``` and ```News API``` from [here](https://newsapi.org/). Then add the ```mongoURI``` and ```newsURI``` and ```secretOrKey``` to a file named ```keys_dev.js``` under ```config``` folder.
-- To Run using ```Docker``` cmd is ```docker-compose up ```
+- To Run using ```Docker Compose file ``` cmd is ```docker-compose up ```
+- To Run using ``` DockerFile``` cmd is ``` docker run acml_app ```
+- To know the ``` images ``` that are created in docker cmd is ``` docker images ``` 
+- To know the ``` The Containers ``` that are created in docker cmd is ``` docker ps ```
+- To stop the ``` dockerFile ``` that is running cmd is ``` docker stop [Container ID] ```
 
 ```javascript
 module.exports = {
